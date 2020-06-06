@@ -25,6 +25,22 @@ srun hostname
 grep bar /var/log/slurm/*.log # make sure Slurm is logging at level 4 or above 
 ```
 
+This is an example of the output it produces right now:
+
+```
+# srun hostname
+bar: Go>Spank_init() starting
+bar: Go>Spank_init() v=%d 9
+bar: Go>Spank_init() end
+c10
+# grep bar /var/log/slurm/*.log
+/var/log/slurm/slurmd.log:[2020-06-06T19:11:44.122] [3.0] bar: slurm_spank_init() - Start
+/var/log/slurm/slurmd.log:[2020-06-06T19:11:44.122] [3.0] bar: Calling go function: Slurm_spank_init()
+/var/log/slurm/slurmd.log:[2020-06-06T19:11:44.123] [3.0] bar: Go>Spank_init() starting __CString__ using slurm_verbose
+/var/log/slurm/slurmd.log:[2020-06-06T19:11:44.123] [3.0] bar: Go Spank_init() function returned 9
+/var/log/slurm/slurmd.log:[2020-06-06T19:11:44.123] [3.0] bar: slurm_spank_init() - Done
+```
+
 There are no unit tests, so testing is mostly try-and error :grimacing:
 
 
