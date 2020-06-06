@@ -19,8 +19,10 @@ git clone git@github.com:miguelgila/slurm-spank-go.git
 cd slurm-spank-go
 make
 make install # assuming /usr
+mkdir 
+echo 'optional /usr/lib64/bar.so' >> /etc/slurm/plugstack.conf
 srun hostname
-grep bar /var/log/slurm*.log
+grep bar /var/log/slurm/*.log # make sure Slurm is logging at level 4 or above 
 ```
 
 There are no unit tests, so testing is mostly try-and error :grimacing:
