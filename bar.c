@@ -99,10 +99,6 @@ int slurm_spank_init(spank_t sp, int ac, char **av)
 
 
 int main(int argc, char **argv) {
-    // This calls a Go function and passes to it a value
-    PrintInt(42);
-
-    // This calls a Go function and gets a value from it
     int v = Spank_init();
     printf("%d\n",v);
     return 0;
