@@ -1,6 +1,3 @@
-#gcc -pthread bar.c foo.a -o foo
-#go build -buildmode=c-archive foo.go
-
 #override CFLAGS += -O2 -Wall -Wvla -Werror -Wfatal-errors -pthread -shared -fPIC 
 override CFLAGS += -pthread 
 CC = /usr/bin/gcc
