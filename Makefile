@@ -34,4 +34,4 @@ uninstall:
 	rm -f /usr/lib64/foo.o
 
 clean:
-	rm -f foo.a foo.h bar core foo foo.so foo.h bar.so
+	rm -f foo.a foo.h bar core foo foo.so foo.h bar.so foo.o bar.o
