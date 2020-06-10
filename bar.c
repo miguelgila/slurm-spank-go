@@ -12,7 +12,7 @@ SPANK_PLUGIN(basic, 1);
 int slurm_spank_job_prolog(spank_t spank, int argc, char *argv[])
 {
     slurm_verbose("c: Starting slurm_spank_job_prolog");
-    Spank_job_prolog();
+    Spank_job_prolog(spank);
     slurm_verbose("c: Finishing slurm_spank_task_init");
     return (0);
 }
@@ -90,7 +90,9 @@ int slurm_spank_slurmd_exit(spank_t sp, int ac, char **av)
 int slurm_spank_init(spank_t sp, int ac, char **av)
 {
     slurm_verbose("c: Starting slurm_spank_init");
-    int v = Spank_init();
+    int is_remote = spank_remote(sp);
+    slurm_verbose("c: is_remote: %d",is_remote);
+    int v = Spank_init(sp);
     slurm_verbose("c: Go Spank_init() function returned %d", v);
     slurm_verbose("c: Finishing slurm_spank_init");
 
@@ -99,7 +101,7 @@ int slurm_spank_init(spank_t sp, int ac, char **av)
 
 
 int main(int argc, char **argv) {
-    int v = Spank_init();
-    printf("%d\n",v);
+    //int v = Spank_init(sp);
+    //printf("%d\n",v);
     return 0;
 }

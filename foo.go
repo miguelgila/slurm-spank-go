@@ -1,7 +1,9 @@
 package main
 /*
-#cgo CFLAGS: -I /usr/include 
-#cgo LDFLAGS: -L /usr/lib64 -lslurm 
+#cgo pkg-config: slurm
+//#c__go CFLAGS: -pthread -fPIC -I /usr/include
+//#c__go LDFLAGS: -L /usr/lib64 -lslurm 
+
 #include <slurm/spank.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -37,8 +39,23 @@ static void dummy() {
     my_slurm_debug3("");
     my_slurm_spank_log("");
 }
+
+// This doesn't work, and I don't know why. Apparently I can't use any function in spank.h 
+//  that are not defined with 'extern' in them. I'm guessing it has to do with some LDFLAGS
+//  or some cgo directives... but well, right now it just doesn't wanna work
+// TODO Add the ability to call spank functions, without it, using Go in a spank plugin is 
+//  very limited!
+//int my_spank_remote(spank_t spank)
+//{
+//    return spank_remote(spank);
+//}
+
 */
 import "C"
+
+// TODO: Test simplified makefile as per 
+// https://golang.org/cmd/cgo/
+// When the Go tool sees that one or more Go files use the special import "C", it will look for other non-Go files in the directory and compile them as part of the Go package. Any .c, .s, .S or .sx files will be compiled with the C compiler. Any .cc, .cpp, or .cxx files will be compiled with the C++ compiler. Any .f, .F, .for or .f90 files will be compiled with the fortran compiler. Any .h, .hh, .hpp, or .hxx files will not be compiled separately, but, if these header files are changed, the package (including its non-Go source files) will be recompiled. Note that changes to files in other directories do not cause the package to be recompiled, so all non-Go source code for the package should be stored in the package directory, not in subdirectories. The default C and C++ compilers may be changed by the CC and CXX environment variables, respectively; those environment variables may include command line options.
 
 import (
     "fmt"
@@ -112,11 +129,12 @@ func trace() (string){
 // SPANK functions -----------------------------------------------------------------------------------------
 
 //export Spank_init
-func Spank_init() (C.int) {
+func Spank_init(sp C.spank_t) (C.int) {
     var v int = 9
     verbose("Starting ["+trace()+"]")    
-    s := fmt.Sprintf("%s%d", "Will return to C the value v=", v)
-    spank_log(s)
+    // This won't work, look above
+    //var a = int(C.my_spank_remote(sp))
+    //fmt.printf("a=%d", a)
     verbose("Finishing ["+trace()+"]")    
     return C.int(v)
 }
@@ -192,8 +210,9 @@ func Spank_init_post_opt() (C.int) {
 }
 
 //export Spank_job_prolog
-func Spank_job_prolog() (C.int) {
+func Spank_job_prolog(spank C.spank_t) (C.int) {
     verbose("Starting ["+trace()+"]")
+
     verbose("Finishing ["+trace()+"]")    
     return C.int(C.ESPANK_SUCCESS)
 }
